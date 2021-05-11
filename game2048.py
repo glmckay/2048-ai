@@ -70,15 +70,20 @@ class Game:
             self.board[indices] = list(_merged_blocks(self.board[indices]))
 
     def do_action(self, action: "Game.Action"):
+        if not self.possible_moves[action]:
+            return  # move not possible, do nothing
+
         self.shift_board(action)
         self.spawn_block()
 
-        del self.possible_moves  # clear cached value
         self.last_action = action
+        # clear cached value (must exist because we checked above)
+        del self.possible_moves
 
     @functools.cached_property
     def possible_moves(self):
         """Returns dictionary or possible moves"""
+
         if _count_zeros(self.board) != 0:
             # there is an empty cell
             horiz = vert = True

@@ -29,7 +29,7 @@ def play_game(game: Game, model: Optional["tf.keras.Model"] = None):
             snake_terminal.run_state_machine(initial_state="PAUSED")
         else:
             snake_terminal = Terminal2048(game, scr_win)
-            snake_terminal.play()
+            snake_terminal.run_state_machine(initial_state="PLAY")
 
     finally:
         cleanup()
@@ -307,12 +307,4 @@ class Terminal2048WithModel(Terminal2048):
 
 
 if __name__ == "__main__":
-    model = tf.keras.models.Sequential(
-        [
-            tf.keras.layers.Flatten(),
-            tf.keras.layers.Dense(4 * 4 * 10, activation="relu"),
-            tf.keras.layers.Dense(4, activation=None),
-        ]
-    )
-
-    play_game(Game(), model)
+    play_game(Game())
